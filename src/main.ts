@@ -5,13 +5,15 @@ import * as helmet from 'helmet';
 import * as compression from 'compression';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, { logger: ['error', 'warn'] });
+  const app = await NestFactory.create(AppModule);
 
-  app.use(compression())
+  app.use(compression());
   app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
-  app.use(helmet())
-  app.enableCors()
+  app.use(helmet());
+  app.enableCors();
 
-  await app.listen(3000);
+  const port = process.env.PORT || 3000;
+
+  await app.listen(port);
 }
 bootstrap();
