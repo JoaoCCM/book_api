@@ -9,13 +9,13 @@ export class UserBook {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
+    @Column({ nullable: false })
     user_id: number
 
-    @Column()
+    @Column({ nullable: false })
     book_id: number
 
-    @Column()
+    @Column({ nullable: false })
     rating_id: number
 
     @CreateDateColumn({ name: 'created_at' })

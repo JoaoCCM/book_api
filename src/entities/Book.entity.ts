@@ -8,16 +8,16 @@ export class Book {
     @PrimaryGeneratedColumn()
     id: number
 
-    @Column()
+    @Column({ nullable: false })
     title: string
 
-    @Column()
+    @Column({ nullable: false })
     author: string
 
-    @Column()
+    @Column({ nullable: false })
     publication_date: Date
 
-    @Column()
+    @Column({ nullable: true })
     isbn: string
 
     @CreateDateColumn()

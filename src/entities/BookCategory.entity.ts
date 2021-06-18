@@ -8,10 +8,10 @@ export class BookCategory {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
+    @Column({ nullable: false })
     category_id: number
 
-    @Column()
+    @Column({ nullable: false })
     book_id: number
 
     @CreateDateColumn({ name: 'created_at' })

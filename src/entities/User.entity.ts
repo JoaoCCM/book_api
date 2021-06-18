@@ -7,16 +7,16 @@ export class User {
     @PrimaryGeneratedColumn()
     id: number
 
-    @Column({ name: 'name' })
+    @Column({ name: 'name', nullable: false  })
     name: string
 
-    @Column({ name: 'email' })
+    @Column({ name: 'email', nullable: false  })
     email: string
 
-    @Column({ name: 'password' })
+    @Column({ name: 'password', nullable: false  })
     password: string
 
-    @Column({ name: 'age' })
+    @Column({ name: 'age', nullable: false  })
     age: number
 
     @CreateDateColumn({ name: 'created_at' })

@@ -7,7 +7,7 @@ export class Rating {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({ type: 'decimal', precision: 5, scale: 2, default: 0 })
+    @Column({ type: 'decimal', precision: 5, scale: 2, default: 0, nullable: false  })
     value: number
 
     @CreateDateColumn({ name: 'created_at' })

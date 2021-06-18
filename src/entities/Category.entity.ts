@@ -5,11 +5,11 @@ import { BookCategory } from '@entities/BookCategory.entity';
 export class Category {
     @PrimaryGeneratedColumn()
     id: number
-    
-    @Column()
+
+    @Column({ nullable: false })
     name: string;
 
-    @Column()
+    @Column({ nullable: false })
     image: string;
 
     @CreateDateColumn({ name: 'created_at' })
