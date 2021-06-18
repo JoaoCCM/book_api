@@ -1,22 +1,22 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToMany, BeforeInsert } from 'typeorm';
 
-import { UserBook } from '@entities/UserBook.entity'
+import { UserBook } from '@entities/UserBook.entity';
 
 @Entity('user')
 export class User {
     @PrimaryGeneratedColumn()
     id: number
 
-    @Column({ name: 'name', nullable: false  })
+    @Column({ name: 'name', nullable: false })
     name: string
 
-    @Column({ name: 'email', nullable: false  })
+    @Column({ name: 'email', nullable: false })
     email: string
 
-    @Column({ name: 'password', nullable: false  })
+    @Column({ name: 'password', nullable: false, select: false })
     password: string
 
-    @Column({ name: 'age', nullable: false  })
+    @Column({ name: 'age', nullable: false })
     age: number
 
     @CreateDateColumn({ name: 'created_at' })
@@ -27,4 +27,4 @@ export class User {
 
     @OneToMany(() => UserBook, (userBook) => userBook.user, { eager: true })
     userBooks: UserBook[];
-}
+}   
