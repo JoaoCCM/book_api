@@ -4,7 +4,7 @@ require('dotenv').config()
 const { DB_HOST, DB_USER, DB_PORT, DB_PASSWORD, NODE_ENV = null, DB_NAME } = process.env;
 
 export const typeOrmConfig: TypeOrmModuleOptions = {
-    type: 'mysql',
+    type: 'postgres',
     host: DB_HOST,
     port: parseInt(DB_PORT),
     username: DB_USER,
