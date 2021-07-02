@@ -1,6 +1,7 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToMany, BeforeInsert } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
 
 import { UserBook } from '@entities/UserBook.entity';
+import { Goal } from '@entities/Goal.entity';
 
 @Entity('user')
 export class User {
@@ -16,9 +17,6 @@ export class User {
     @Column({ name: 'password', nullable: false, select: false })
     password: string
 
-    @Column({ name: 'age', nullable: false })
-    age: number
-
     @CreateDateColumn({ name: 'created_at' })
     created_at: Date
 
@@ -27,4 +25,7 @@ export class User {
 
     @OneToMany(() => UserBook, (userBook) => userBook.user, { eager: true })
     userBooks: UserBook[];
+
+    @OneToMany(() => Goal, goal => goal.user)
+    goals: Goal[]
 }   

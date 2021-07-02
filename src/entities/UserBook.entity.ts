@@ -1,8 +1,9 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn, OneToOne } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToOne, OneToMany, JoinColumn, OneToOne } from 'typeorm';
 
 import { User } from '@entities/User.entity';
 import { Book } from '@entities/Book.entity';
 import { Rating } from '@entities/Rating.entity';
+import { CustomCategory } from '@entities/CustomCategory.entity';
 
 @Entity('user_book')
 export class UserBook {
@@ -17,6 +18,12 @@ export class UserBook {
 
     @Column({ nullable: false })
     rating_id: number
+
+    @Column({ nullable: false, default: 'lido' })
+    status: string
+
+    @Column({ nullable: true })
+    read_in: string
 
     @CreateDateColumn({ name: 'created_at' })
     created_at: Date
@@ -35,4 +42,7 @@ export class UserBook {
     @ManyToOne(() => Book, (book) => book.userBooks)
     @JoinColumn([{ name: "book_id", referencedColumnName: "id" }])
     book: Book;
+
+    @OneToMany(() => CustomCategory, (customCategory) => customCategory.userBook)
+    customCategory: CustomCategory[];
 }
