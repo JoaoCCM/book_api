@@ -2,6 +2,7 @@ import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateCol
 
 import { UserBook } from '@entities/UserBook.entity';
 import { BookCategory } from '@entities/BookCategory.entity';
+import { AuthorBook } from '@entities/AuthorBook.entity';
 
 @Entity('book')
 export class Book {
@@ -12,13 +13,13 @@ export class Book {
     title: string
 
     @Column({ nullable: false })
-    author: string
-
-    @Column({ nullable: false })
     publication_date: Date
 
     @Column({ nullable: true })
     isbn: string
+
+    @Column({ nullable: false, default: 'pendente' })
+    status: string
 
     @CreateDateColumn()
     created_at: Date
@@ -31,4 +32,7 @@ export class Book {
 
     @OneToMany(() => BookCategory, (bookCategory) => bookCategory.category)
     bookCategories: BookCategory[];
+
+    @OneToMany(() => AuthorBook, (authorBook) => authorBook.author, { eager: true })
+    authorBooks: AuthorBook[];
 }

@@ -1,3 +1,4 @@
+import { GoalModule } from './goal/goal.module';
 import { Module, MiddlewareConsumer, RequestMethod } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -15,6 +16,7 @@ import { auth } from './middlewares/auth.middleware';
 
 @Module({
   imports: [
+        GoalModule, 
     BullModule.forRoot({
       redis: {
         host: 'localhost',

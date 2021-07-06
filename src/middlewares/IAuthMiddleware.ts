@@ -7,3 +7,11 @@ export class IAuthMiddleware extends Request {
         }
     }
 }
+
+export class IAuthUserMiddleware {
+    user: {
+        payload: {
+            id: number,
+        }
+    }
+}

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, HttpException } from '@nestjs/common';
 import { UserDTO } from './dto/user.dto';
 import { User } from '@entities/User.entity';
 import { Repository, getConnection } from 'typeorm';
@@ -36,6 +36,20 @@ export class UserService {
 
             await this.userRepository.insert({ ...user, password: hashed_pass });
             return { success: true };
+        } catch (e) {
+            throw e;
+        }
+    }
+
+    async userDashboardData(id: number) {
+        try {
+            const user = await this.findUser({ id });
+            if (!user) throw new HttpException('User not found', 404);
+
+            const active_goal = user.goals.find(it => it.status === 'em andamento');
+            const user_data = { id: user.id, name: user.name, user_books: user.userBooks, active_goal }
+
+            return user_data;
         } catch (e) {
             throw e;
         }

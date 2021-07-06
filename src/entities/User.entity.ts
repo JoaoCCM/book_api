@@ -26,6 +26,6 @@ export class User {
     @OneToMany(() => UserBook, (userBook) => userBook.user, { eager: true })
     userBooks: UserBook[];
 
-    @OneToMany(() => Goal, goal => goal.user)
+    @OneToMany(() => Goal, goal => goal.user, { eager: true })
     goals: Goal[]
-}   
+}

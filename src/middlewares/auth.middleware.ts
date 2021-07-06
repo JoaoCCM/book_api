@@ -11,8 +11,9 @@ export function auth(
 
   if (access_token === null) res.status(401).send();
 
-  verify(access_token, process.env.JWT_SECRET, (err, user: any) => {
+  verify(access_token, process.env.SECRET, (err, user: any) => {
     if (err) {
+      console.log('err', err)
       return res.status(403).json({ message: 'Access Denied.' });
     }
 

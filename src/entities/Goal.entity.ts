@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToOne } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
 
 import { User } from '@entities/User.entity';
 
@@ -20,6 +20,9 @@ export class Goal {
     @Column({ nullable: false })
     status: string;
 
+    @Column({ nullable: false })
+    user_id: number;
+
     @CreateDateColumn({ name: 'created_at' })
     created_at: Date;
 
@@ -27,5 +30,6 @@ export class Goal {
     updated_at: Date;
 
     @ManyToOne(() => User, user => user.goals)
+    @JoinColumn([{ name: "user_id", referencedColumnName: "id" }])
     user: User;
 }
