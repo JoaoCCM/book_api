@@ -1,3 +1,4 @@
+import { BookModule } from './book/book.module';
 import { GoalModule } from './goal/goal.module';
 import { Module, MiddlewareConsumer, RequestMethod } from '@nestjs/common';
 import { AppController } from './app.controller';
@@ -16,7 +17,6 @@ import { auth } from './middlewares/auth.middleware';
 
 @Module({
   imports: [
-        GoalModule, 
     BullModule.forRoot({
       redis: {
         host: 'localhost',
@@ -26,14 +26,16 @@ import { auth } from './middlewares/auth.middleware';
     ConfigModule.forRoot(),
     TypeOrmModule.forRoot(typeOrmConfig),
     UserModule,
-    AuthModule
+    AuthModule,
+    BookModule,
+    GoalModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer      
+    consumer
       .apply(auth)
       .exclude(
         { path: '/health-check', method: RequestMethod.ALL },
@@ -42,4 +44,4 @@ export class AppModule {
       )
       .forRoutes({ path: '*', method: RequestMethod.ALL })
   }
- }
+}
