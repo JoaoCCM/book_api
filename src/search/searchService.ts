@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export class SearchService {
     constructor(
-        private readonly book_api_v1 = 'https://www.googleapis.com/books/v1/volumes?q='
+        private readonly book_api_v1 = 'https://www.googleapis.com/books/v1/volumes'
     ) { }
 
     defineSearchType(type: string) {
@@ -31,7 +31,7 @@ export class SearchService {
             
             let model = { success: false, search_data: [] };
 
-            const request = await axios.get(`${this.book_api_v1}${term}+${search_type}&key=${process.env.BOOK_KEY}`);            
+            const request = await axios.get(`${this.book_api_v1}?q=${term}+${search_type}&key=${process.env.BOOK_KEY}`);            
             if (request?.data?.totalItems == 0) return model;
 
             const final_data = this.treatData(request.data.items);
@@ -50,8 +50,9 @@ export class SearchService {
 
             for (let index = 0; index < api_response.length; index++) {
                 if (final_arr.includes(api_response[index].volumeInfo.title)) continue;
-
+                
                 let model = {
+                    book_id: api_response[index].id,
                     book_name: api_response[index].volumeInfo.title,
                     book_image: api_response[index]?.volumeInfo?.imageLinks?.thumbnail,
                     book_categories: api_response[index].volumeInfo.categories,
