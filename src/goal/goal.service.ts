@@ -25,4 +25,17 @@ export class GoalService {
             throw e;
         }
     }
+
+    async editGoal(id: number, data: IGoalDTO) {
+        try {
+            const { time_measure } = data;
+
+            if (!this.acceptable_measures.includes(time_measure)) throw new HttpException('Invalid option for time measure', 400);
+
+            await this.goalRepository.update({ id }, data);
+            return true;
+        } catch (e) {
+            throw e;
+        }
+    }
 }
