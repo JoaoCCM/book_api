@@ -5,21 +5,40 @@ export class SearchService {
         private readonly book_api_v1 = 'https://www.googleapis.com/books/v1/volumes?q='
     ) { }
 
+    defineSearchType(type: string) {
+        let def_type;
+        switch (type) {
+            case 'autor':
+                def_type = 'inauthor';
+                break;
+            case 'isbn':
+                def_type = 'isbn';
+                break;
+            case 'titulo':
+                def_type = 'intitle';
+                break;
+            default:
+                def_type = 'intitle';
+        }
+
+        return def_type;
+    }
+
     async searchOnBooksApi(data) {
         try {
-            const { term } = data;
+            const { term, type } = data;
+            let search_type = this.defineSearchType(type.toLowerCase());
             
             let model = { success: false, search_data: [] };
-            
-            const request = await axios.get(`${this.book_api_v1}${term}+intitle&key=${process.env.BOOK_KEY}`);
-            if (request.data?.length == 0) return model;
-            
+
+            const request = await axios.get(`${this.book_api_v1}${term}+${search_type}&key=${process.env.BOOK_KEY}`);            
+            if (request?.data?.totalItems == 0) return model;
+
             const final_data = this.treatData(request.data.items);
             model = { success: true, search_data: final_data };
 
             return model;
         } catch (e) {
-            console.log('aaaqui', e)
             let model = { success: false, search_data: [] };
             return model;
         }

@@ -16,7 +16,7 @@ export class BookService {
             const { term, type } = data;
             
             const search = await this.searchService.searchOnBooksApi({ term, type });
-            if (!search.success) throw new HttpException('Search failed', 500);
+            if (!search.success) return [];
 
             return search;
         } catch (e) {
