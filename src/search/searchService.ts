@@ -28,10 +28,10 @@ export class SearchService {
         try {
             const { term, type } = data;
             let search_type = this.defineSearchType(type.toLowerCase());
-            
+
             let model = { success: false, search_data: [] };
 
-            const request = await axios.get(`${this.book_api_v1}?q=${term}+${search_type}&key=${process.env.BOOK_KEY}`);            
+            const request = await axios.get(`${this.book_api_v1}?q=${term}+${search_type}&key=${process.env.BOOK_KEY}`);
             if (request?.data?.totalItems == 0) return model;
 
             const final_data = this.treatData(request.data.items);
@@ -44,13 +44,32 @@ export class SearchService {
         }
     }
 
+    async findOneBookInfo(id) {
+        try {
+            let model = { success: false, book_id: null, title: "", book_image: "", authors: [], categories: [] }
+            let url = `${this.book_api_v1}/${id}`;
+
+            const request = await axios.get(url);
+            if (!request.data) return model;
+            
+            const { id: book_id } = request.data;
+            const { title, authors, categories, image_links } = request.data.volumeInfo;
+
+            model = { success: true, book_id, title, book_image: image_links?.thumbnail, authors, categories };
+            return model;
+        } catch (e) {
+            let model = { success: false }
+            return model;
+        }
+    }
+
     treatData(api_response) {
         try {
             let final_arr = [];
 
             for (let index = 0; index < api_response.length; index++) {
                 if (final_arr.includes(api_response[index].volumeInfo.title)) continue;
-                
+
                 let model = {
                     book_id: api_response[index].id,
                     book_name: api_response[index].volumeInfo.title,
