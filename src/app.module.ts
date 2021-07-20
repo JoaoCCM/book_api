@@ -1,3 +1,4 @@
+import { UserListModule } from './userLists/userlist.module';
 import { BookModule } from './book/book.module';
 import { GoalModule } from './goal/goal.module';
 import { Module, MiddlewareConsumer, RequestMethod } from '@nestjs/common';
@@ -29,6 +30,7 @@ import { auth } from './middlewares/auth.middleware';
     AuthModule,
     BookModule,
     GoalModule,
+    UserListModule,
   ],
   controllers: [AppController],
   providers: [AppService],
