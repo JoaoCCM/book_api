@@ -5,12 +5,15 @@ import { TypeOrmModule } from '@nestjs/typeorm'
 
 //ENTITIES
 import { Book } from '@entities/Book.entity';
+import { CustomCategory } from '@entities/CustomCategory.entity';
+import { Rating } from '@entities/Rating.entity';
+import { UserBook } from '@entities/UserBook.entity';
 
 //SERVICES
 import { SearchService } from '../search/searchService';
 
 @Module({
-    imports: [TypeOrmModule.forFeature([Book]), SearchService],
+    imports: [TypeOrmModule.forFeature([Book, CustomCategory, Rating, UserBook]), SearchService],
     controllers: [BookController,],
     providers: [BookService, SearchService],
 })

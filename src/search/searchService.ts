@@ -73,6 +73,7 @@ export class SearchService {
                 let model = {
                     book_id: api_response[index].id,
                     book_name: api_response[index].volumeInfo.title,
+                    book_published_data: api_response[index].volumeInfo.publishedDate,
                     book_image: api_response[index]?.volumeInfo?.imageLinks?.thumbnail,
                     book_categories: api_response[index].volumeInfo.categories,
                     book_authors: api_response[index].volumeInfo.authors

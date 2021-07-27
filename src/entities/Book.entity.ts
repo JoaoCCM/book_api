@@ -21,6 +21,9 @@ export class Book {
     @Column({ nullable: false, default: 'pendente' })
     status: string
 
+    @Column({ nullable: true })
+    image: string
+
     @CreateDateColumn()
     created_at: Date
 
