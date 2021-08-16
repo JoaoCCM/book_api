@@ -1,6 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToMany, JoinColumn } from 'typeorm';
 
-import { UserBook } from '@entities/UserBook.entity';
+import { CustomCategoryUserBook } from '@entities/CustomCategoryUserBook.entity';
 
 @Entity('custom_category')
 export class CustomCategory {
@@ -14,16 +14,12 @@ export class CustomCategory {
     @Column({ nullable: true })
     image: string;
 
-    @Column({ nullable: true })
-    user_book_id: number;
-
     @CreateDateColumn({ name: 'created_at' })
     created_at: Date;
 
     @UpdateDateColumn({ name: 'updated_at' })
     updated_at: Date;
 
-    @ManyToOne(() => UserBook, (userBook) => userBook.customCategory)
-    @JoinColumn([{ name: "user_book_id", referencedColumnName: "id" }])
-    userBook: UserBook;
+    @OneToMany(() => CustomCategoryUserBook, (customCategoryUserBook) => customCategoryUserBook.userBook)
+    customCategoryUserBooks: CustomCategoryUserBook[];
 }

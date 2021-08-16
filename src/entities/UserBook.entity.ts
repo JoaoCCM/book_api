@@ -3,7 +3,7 @@ import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateCol
 import { User } from '@entities/User.entity';
 import { Book } from '@entities/Book.entity';
 import { Rating } from '@entities/Rating.entity';
-import { CustomCategory } from '@entities/CustomCategory.entity';
+import { CustomCategoryUserBook } from '@entities/CustomCategoryUserBook.entity';
 
 @Entity('user_book')
 export class UserBook {
@@ -43,6 +43,6 @@ export class UserBook {
     @JoinColumn([{ name: "book_id", referencedColumnName: "id" }])
     book: Book;
 
-    @OneToMany(() => CustomCategory, (customCategory) => customCategory.userBook)
-    customCategory: CustomCategory[];
+    @OneToMany(() => CustomCategoryUserBook, (customCategoryUserBook) => customCategoryUserBook.customCategory)
+    customCategoryUserBooks: CustomCategoryUserBook[];
 }
