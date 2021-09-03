@@ -1,4 +1,4 @@
-import { Controller, Post, Put, Delete, ValidationPipe, Body, Param, Res } from '@nestjs/common';
+import { Controller, Post, Put, Delete, ValidationPipe, Body, Param, Res, Req } from '@nestjs/common';
 import { UserListService } from './userlist.service';
 import { UserListDTO } from './dto/userList.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
@@ -13,9 +13,10 @@ export class UserlistController {
     ) { }
 
     @Post('/user/list')
-    async createNewList(@Body(new ValidationPipe) userListDTO: UserListDTO, @Res() res: Response): Promise<void> {
+    async createNewList(@Req() req, @Body(new ValidationPipe) userListDTO: UserListDTO, @Res() res: Response): Promise<void> {
         try {
-            const data = await this.userListService.createNewUserList(userListDTO);
+            const { id: user_id } = req.user.payload;
+            const data = await this.userListService.createNewUserList({ ...userListDTO, user_id });
             res.status(200).json({ 'Created': data });
         } catch (err) {
             const { status, response } = err;

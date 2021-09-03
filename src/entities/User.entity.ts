@@ -2,6 +2,7 @@ import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateCol
 
 import { UserBook } from '@entities/UserBook.entity';
 import { Goal } from '@entities/Goal.entity';
+import { CustomCategory } from '@entities/CustomCategory.entity';
 
 @Entity('user')
 export class User {
@@ -28,4 +29,7 @@ export class User {
 
     @OneToMany(() => Goal, goal => goal.user, { eager: true })
     goals: Goal[]
+
+    @OneToMany(() => CustomCategory, custom => custom.user, { eager: true })
+    customCategories: CustomCategory[]
 }

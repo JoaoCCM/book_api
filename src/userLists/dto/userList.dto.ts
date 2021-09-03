@@ -15,5 +15,5 @@ export class UserListDTO {
     @IsOptional()
     @IsNumber()
     @ApiProperty()
-    user_book_id: number;
+    user_id: number;
 }

@@ -47,7 +47,7 @@ export class UserService {
             if (!user) throw new HttpException('User not found', 404);
 
             const active_goal = user.goals.find(it => it.status === 'em andamento');
-            const user_data = { id: user.id, name: user.name, user_books: user.userBooks, active_goal }
+            const user_data = { id: user.id, name: user.name, playlists: user.customCategories, active_goal }
 
             return user_data;
         } catch (e) {

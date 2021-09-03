@@ -3,6 +3,7 @@ import { SearchService } from '../search/searchService';
 import { Book } from '@entities/Book.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import { CustomCategoryUserBook } from '@entities/CustomCategoryUserBook.entity';
 import { CustomCategory } from '@entities/CustomCategory.entity';
 import { Rating } from '@entities/Rating.entity';
 import { UserBook } from '@entities/UserBook.entity';
@@ -12,6 +13,7 @@ import { BookDTO } from './dto/book.dto';
 export class BookService {
     constructor(
         @InjectRepository(Book) private readonly bookRepository: Repository<Book>,
+        @InjectRepository(CustomCategoryUserBook) private readonly customCategoryUserBook: Repository<CustomCategoryUserBook>,
         @InjectRepository(CustomCategory) private readonly userListRepository: Repository<CustomCategory>,
         @InjectRepository(Rating) private readonly ratingRepository: Repository<Rating>,
         @InjectRepository(UserBook) private readonly userBookRepository: Repository<UserBook>,
@@ -49,14 +51,14 @@ export class BookService {
 
             //UserBook insert
             const saved_user_book = await this.userBookRepository.insert({
-                book_id: saved_book.identifiers[0].id, 
+                book_id: saved_book.identifiers[0].id,
                 rating_id: saved_rating.identifiers[0].id,
                 user_id,
-                read_in: null, 
-                status: "lendo"
+                read_in: null,
+                status
             });
 
-            //To do CustomCategory insert
+            await this.customCategoryUserBook.insert({ custom_category_id: list_id, user_book_id: saved_user_book.identifiers[0].id });
             return true;
         } catch (e) {
             throw e;
