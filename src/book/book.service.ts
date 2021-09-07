@@ -44,7 +44,7 @@ export class BookService {
             if (book) { }
 
             //BOOK insert
-            const saved_book = await this.bookRepository.insert({ title, publication_date, status, isbn, image });
+            const saved_book = await this.bookRepository.insert({ title, publication_date, isbn, image });
 
             //RATING insert
             const saved_rating = await this.ratingRepository.insert({ value: rating });

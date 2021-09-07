@@ -18,8 +18,8 @@ export class Book {
     @Column({ nullable: true })
     isbn: string
 
-    @Column({ nullable: false, default: 'pendente' })
-    status: string
+    // @Column({ nullable: false, default: 'pendente' })
+    // status: string
 
     @Column({ nullable: true })
     image: string
