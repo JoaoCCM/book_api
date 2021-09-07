@@ -24,10 +24,14 @@ export class SearchService {
         return def_type;
     }
 
-    validateArrayOfResults(arr, searched_term) {
+    validateArrayOfResults(arr, searched_term: string, search_type: string) {
         try {
-            let filtered_arr = arr?.filter(it => it.book_name.indexOf(searched_term) > -1);
-            return filtered_arr;
+            if (search_type === 'intitle') {
+                let filtered_arr = arr?.filter(it => it.book_name.toLowerCase().indexOf(searched_term.toLowerCase()) > -1);
+                return filtered_arr;
+            }
+
+            return arr;
         } catch (err) {
             throw err;
         }
@@ -43,7 +47,7 @@ export class SearchService {
             const request = await axios.get(`${this.book_api_v1}?q=${term}+${search_type}&key=${process.env.BOOK_KEY}`);
             if (request?.data?.totalItems == 0) return model;
 
-            const final_data = this.treatData(request.data.items, term);
+            const final_data = this.treatData(request.data.items, term, search_type);
             model = { success: true, search_data: final_data };
 
             return model;
@@ -72,7 +76,7 @@ export class SearchService {
         }
     }
 
-    treatData(api_response, term) {
+    treatData(api_response, term: string, search_type: string) {
         try {
             let final_arr = [];
             let temp_arr = [];
@@ -92,7 +96,7 @@ export class SearchService {
                 temp_arr.push(model);
             };
 
-            final_arr = this.validateArrayOfResults(temp_arr, term);
+            final_arr = this.validateArrayOfResults(temp_arr, term, search_type);
             return final_arr;
         } catch (e) {
             throw e;
