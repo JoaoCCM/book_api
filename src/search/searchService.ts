@@ -24,6 +24,15 @@ export class SearchService {
         return def_type;
     }
 
+    validateArrayOfResults(arr, searched_term) {
+        try {
+            let filtered_arr = arr?.filter(it => it.book_name.indexOf(searched_term) > -1);
+            return filtered_arr;
+        } catch (err) {
+            throw err;
+        }
+    }
+
     async searchOnBooksApi(data) {
         try {
             const { term, type } = data;
@@ -34,7 +43,7 @@ export class SearchService {
             const request = await axios.get(`${this.book_api_v1}?q=${term}+${search_type}&key=${process.env.BOOK_KEY}`);
             if (request?.data?.totalItems == 0) return model;
 
-            const final_data = this.treatData(request.data.items);
+            const final_data = this.treatData(request.data.items, term);
             model = { success: true, search_data: final_data };
 
             return model;
@@ -51,7 +60,7 @@ export class SearchService {
 
             const request = await axios.get(url);
             if (!request.data) return model;
-            
+
             const { id: book_id } = request.data;
             const { title, authors, categories, image_links } = request.data.volumeInfo;
 
@@ -63,9 +72,10 @@ export class SearchService {
         }
     }
 
-    treatData(api_response) {
+    treatData(api_response, term) {
         try {
             let final_arr = [];
+            let temp_arr = [];
 
             for (let index = 0; index < api_response.length; index++) {
                 if (final_arr.includes(api_response[index].volumeInfo.title)) continue;
@@ -79,9 +89,10 @@ export class SearchService {
                     book_authors: api_response[index].volumeInfo.authors
                 }
 
-                final_arr.push(model);
+                temp_arr.push(model);
             };
 
+            final_arr = this.validateArrayOfResults(temp_arr, term);
             return final_arr;
         } catch (e) {
             throw e;
